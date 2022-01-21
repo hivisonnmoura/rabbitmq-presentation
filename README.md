@@ -1,1 +1,1 @@
-# rabbitmq-presentation
+# RabbitMQ-Presentation
