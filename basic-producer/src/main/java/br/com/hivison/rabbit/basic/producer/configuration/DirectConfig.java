@@ -7,6 +7,8 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 public class DirectConfig {
 
@@ -14,24 +16,24 @@ public class DirectConfig {
     private final Queue firstQueue;
     private final Queue secondQueue;
     private final Queue jsonQueue;
+    private final Queue firstCloneQueue;
 
-    public DirectConfig(Exchange directExchange, Queue firstQueue, Queue secondQueue, Queue jsonQueue) {
+    public DirectConfig(Exchange directExchange, Queue firstQueue, Queue secondQueue, Queue jsonQueue, Queue firstCloneQueue) {
         this.directExchange = directExchange;
         this.firstQueue = firstQueue;
         this.secondQueue = secondQueue;
         this.jsonQueue = jsonQueue;
+        this.firstCloneQueue = firstCloneQueue;
     }
-
-/*    @PostConstruct
-    public void init(){
-        firstDirectBinding();
-        secondDirectBinding();
-        jsonDirectBinding();
-    }*/
 
     @Bean
     public Binding firstDirectBinding() {
         return bindQueue(firstQueue, directExchange, "TO-FIRST-QUEUE");
+    }
+
+    @Bean
+    public Binding cloneDirectBiding() {
+        return bindQueue(firstCloneQueue, directExchange, "TO-FIRST-QUEUE");
     }
 
     @Bean
