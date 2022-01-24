@@ -16,6 +16,11 @@ public class QueueConfig {
     }
 
     @Bean
+    public Queue firstCloneQueue(){
+        return buildDurableQueue("FIRST-CLONE-QUEUE");
+    }
+
+    @Bean
     public Queue secondQueue(){
         return buildDurableQueue("SECOND-QUEUE");
     }
