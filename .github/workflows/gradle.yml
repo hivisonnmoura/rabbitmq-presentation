@@ -26,9 +26,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
         cache: gradle
-    - name: Navegate to basic-consumer module
-      run: cd basic-consumer
     - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      run: cd basic-consumer && chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew clean build
