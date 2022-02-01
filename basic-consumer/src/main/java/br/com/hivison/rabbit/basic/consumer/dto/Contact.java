@@ -8,7 +8,6 @@ import java.time.LocalDate;
 @JsonSerialize
 public record Contact(
         String name,
-        @JsonSerialize(using = LocalDateSerializer.class) LocalDate birthday,
-        String phoneNumber
+        String country
 ) {
 }

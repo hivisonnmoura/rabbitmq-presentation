@@ -1,0 +1,21 @@
+plugins {
+    id 'idea'
+}
+
+subprojects {
+    apply plugin: 'idea'
+    apply plugin: 'java'
+
+    group = "br.com.hivison.rabbit"
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    repositories {
+        mavenLocal()
+    }
+
+}
