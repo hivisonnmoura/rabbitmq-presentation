@@ -11,10 +11,14 @@ public class BasicListener implements MessageListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BasicListener.class);
 
+
     @Override
     public void onMessage(Message message) {
+        final var headers = message.getMessageProperties().getHeaders();
         LOGGER.info("Receive message from {}.", message.getMessageProperties().getConsumerQueue());
         final var payload = new String(message.getBody());
+        LOGGER.info("Headers: {}", headers.keySet());
         LOGGER.info("Payload: {}", payload);
+
     }
 }

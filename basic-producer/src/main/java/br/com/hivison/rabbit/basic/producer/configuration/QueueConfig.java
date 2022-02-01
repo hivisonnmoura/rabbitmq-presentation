@@ -16,18 +16,18 @@ public class QueueConfig {
     }
 
     @Bean
-    public Queue firstCloneQueue(){
-        return buildDurableQueue("FIRST-CLONE-QUEUE");
-    }
-
-    @Bean
     public Queue secondQueue(){
         return buildDurableQueue("SECOND-QUEUE");
     }
 
     @Bean
-    public Queue jsonQueue(){
-        return buildDurableQueue("JSON-QUEUE");
+    public Queue thirdQueue(){
+        return buildDurableQueue("THIRD-QUEUE");
+    }
+
+    @Bean
+    public Queue topicQueue(){
+        return buildDurableQueue("allQueue");
     }
 
     private Queue buildDurableQueue(String queueName){

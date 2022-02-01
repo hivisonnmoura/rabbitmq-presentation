@@ -6,3 +6,10 @@ spring:
     port: 5672
     username: guest
     password: guest
+
+application:
+  rabbit:
+    exchange: direct
+    #topic
+    #fanout
+    #headers
