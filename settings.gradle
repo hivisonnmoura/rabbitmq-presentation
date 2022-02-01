@@ -1,4 +1,0 @@
-rootProject.name = 'rabbitmq-presentation'
-
-include ':basic-consumer'
-include ':basic-producer'
