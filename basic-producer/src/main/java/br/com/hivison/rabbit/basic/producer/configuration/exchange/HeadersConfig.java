@@ -20,10 +20,7 @@ public class HeadersConfig {
     private final Queue secondQueue;
     private final Queue thirdQueue;
 
-    public HeadersConfig(
-                         Queue firstQueue,
-                         Queue secondQueue,
-                         Queue thirdQueue) {
+    public HeadersConfig(Queue firstQueue, Queue secondQueue, Queue thirdQueue) {
         this.firstQueue = firstQueue;
         this.secondQueue = secondQueue;
         this.thirdQueue = thirdQueue;

@@ -1,7 +1,6 @@
 package br.com.hivison.rabbit.basic.producer.controller;
 
 import br.com.hivison.rabbit.basic.producer.dto.Contact;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.MessageProperties;
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Objects;
 
 @RestController
 @RequestMapping("exchanges")
@@ -31,24 +28,35 @@ public class ExchangeController {
         this.messageConverter = messageConverter;
     }
 
-    @PostMapping("{exchange}/{routingKey}/{headerValue}")
+    @PostMapping("{exchange}/{routingKey}")
     public HttpEntity<?> postOnExchange(
-            @PathVariable String exchange,
+            @PathVariable(required = false) String exchange,
             @PathVariable(required = false) String routingKey,
-            @PathVariable(required = false) String headerValue,
             @RequestBody Contact contact) {
         LOGGER.info("Sending message:{} to exchange: {} and queue:{}", contact, exchange, routingKey);
-
-        if (StringUtils.isNotEmpty(headerValue)) {
-            final var messageProperties = new MessageProperties();
-            messageProperties.setHeader("destination", headerValue);
-            final var message = messageConverter.toMessage(contact, messageProperties);
-            rabbitTemplate.send(exchange, "", message);
-            return ResponseEntity.ok().build();
-        }
-
-
         rabbitTemplate.convertAndSend(exchange, routingKey, contact);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{headerValue}")
+    public HttpEntity<?> postOnHeadersExchange(
+            @PathVariable String headerValue,
+            @RequestBody Contact contact) {
+        LOGGER.info("Sending message:{} to exchange: HEADERS-EXCHANGE with header:{}", contact, headerValue);
+        final var messageProperties = new MessageProperties();
+        messageProperties.setHeader("destination", headerValue);
+        final var message = messageConverter.toMessage(contact, messageProperties);
+        rabbitTemplate.send("HEADERS-EXCHANGE", "", message);
+        return ResponseEntity.ok().build();
+
+    }
+
+    @PostMapping("{routingKey}")
+    public HttpEntity<?> postOnDefaultExchange(
+            @PathVariable(required = false) String routingKey,
+            @RequestBody Contact contact) {
+        LOGGER.info("Sending message:{} to exchange: Default and queue:{}", contact, routingKey);
+        rabbitTemplate.convertAndSend("", routingKey, contact);
         return ResponseEntity.ok().build();
     }
 }
