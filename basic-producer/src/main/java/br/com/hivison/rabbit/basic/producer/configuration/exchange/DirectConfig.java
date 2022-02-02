@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-//@ConditionalOnProperty(value = "application.rabbit.exchange", havingValue = "direct")
+@ConditionalOnProperty(value = "application.rabbit.exchange", havingValue = "direct")
 public class DirectConfig {
 
     private final Queue firstQueue;
